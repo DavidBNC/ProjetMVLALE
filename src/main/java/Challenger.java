@@ -1,32 +1,117 @@
 package main.java;
 
-import java.util.Random;
+import java.util.Scanner;
 
 public class Challenger extends Jeu {
 
-    public Challenger(String number) {
-        super(number);
+    /**
+     * @modeChallenger : Methode du mode de jeu en Challenger.
+     */
+    private void modeChallenger(){
+        System.out.println(toString());
+        combinaisonSecreteOrdinateur();
+        jouerChall();
     }
 
-    public void modeChallenger(){
-        Random r = new Random();
-        int cs1 = r.nextInt(9);
-        int cs2 = r.nextInt(9);
-        int cs3 = r.nextInt(9);
-        int cs4 = r.nextInt(9);
-        String combi1 = Integer.toString(cs1);
-        String combi2 = Integer.toString(cs2);
-        String combi3 = Integer.toString(cs3);
-        String combi4 = Integer.toString(cs4);
-        String combiSecrete = combi1 + combi2 + combi3 + combi4;
-        setNumber(combiSecrete);
+    /**
+     * @jouerChall : Déroulement du jeu en mode challenger.
+     */
+    private void jouerChall(){
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Bienvenue dans le mode Challenger");
-        System.out.println("L'ordinateur a choisi la combinaison : " + getNumber());
-        afficherChar();
+        System.out.println("Le jeu du + ou - commence.");
+        System.out.println("Veuillez choisir votre proposition :");
+        String proposition = scanner.nextLine();
+
+        char chP1 = proposition.charAt(0);
+        char chP2 = proposition.charAt(1);
+        char chP3 = proposition.charAt(2);
+        char chP4 = proposition.charAt(3);
+
+        byte premierCaracPropo = (byte) (chP1 - 48);
+        byte deuxiemeCaracPropo = (byte) (chP2 - 48);
+        byte troisiemeCaracPropo = (byte) (chP3 - 48);
+        byte quatriemeCaracPropo = (byte) (chP4 - 48);
+
+        String reponseComparaison = comparaisonPremierChar(premierCaracPropo) + comparaisonDeuxiemeChar(deuxiemeCaracPropo) +
+                comparaisonTroisiemeChar(troisiemeCaracPropo) + comparaisonQuatriemeChar(quatriemeCaracPropo);
+
+        System.out.println("Proposition : " + proposition + " --> Proposition : " + reponseComparaison);
+        }
+
+    /**
+     * @comparaisonPremierChar : Renvoi la comparaison du premier caractère de la proposition.
+     * @param caracPropo
+     * @return
+     */
+    public String comparaisonPremierChar(byte caracPropo){
+        String reponseChar;
+
+        if(caracPropo < stockageCS[6]){
+            reponseChar = "+";
+        } else if (caracPropo > stockageCS[6]){
+            reponseChar = "-";
+        } else{
+            reponseChar = "=";
+        }
+        return reponseChar;
     }
 
-    public void jouer(){
+    /**
+     * @comparaisonDeuxiemeChar : Renvoi la comparaison du deuxième caractère de la proposition.
+     * @param caracPropo
+     * @return
+     */
+    public String comparaisonDeuxiemeChar(byte caracPropo) {
+        String reponseChar;
+
+        if (caracPropo < stockageCS[7]) {
+            reponseChar = "+";
+        } else if (caracPropo > stockageCS[7]) {
+            reponseChar = "-";
+        } else {
+            reponseChar = "=";
+        }
+        return reponseChar;
+    }
+
+    /**
+     * @comparaisonTroisiemeChar : Renvoi la comparaison du troisième caractère de la proposition.
+     * @param caracPropo
+     * @return
+     */
+    public String comparaisonTroisiemeChar(byte caracPropo) {
+        String reponseChar;
+
+        if (caracPropo < stockageCS[8]) {
+            reponseChar = "+";
+        } else if (caracPropo > stockageCS[8]) {
+            reponseChar = "-";
+        } else {
+            reponseChar = "=";
+        }
+        return reponseChar;
+    }
+
+    /**
+     * @comparaisonQuatriemeChar : Renvoi la comparaison du quatrième caractère de la proposition.
+     * @param caracPropo
+     * @return
+     */
+    public String comparaisonQuatriemeChar(byte caracPropo) {
+        String reponseChar;
+
+        if (caracPropo < stockageCS[9]) {
+            reponseChar = "+";
+        } else if (caracPropo > stockageCS[9]) {
+            reponseChar = "-";
+        } else {
+            reponseChar = "=";
+        }
+        return reponseChar;
+    }
+
+    protected void lancerMDJ(){
         modeChallenger();
     }
 }

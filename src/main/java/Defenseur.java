@@ -2,16 +2,15 @@ package main.java;
 
 public class Defenseur extends Jeu {
 
-    public Defenseur(String number) {
-        super(number);
+    /**
+     * @modeDefenseur : Methode du mode de jeu en Defenseur.
+     */
+    private void modeDefenseur(){
+        System.out.println(toString());
+        saisieManuelCombinaisonSecrete();
     }
 
-    public void modeDefenseur(){
-        System.out.println("Bienvenue dans le mode Défenseur");
-        saisiCombinaisonSecrete();
-    }
-
-    public void jouer(){
+    protected void lancerMDJ(){
         modeDefenseur();
     }
 }

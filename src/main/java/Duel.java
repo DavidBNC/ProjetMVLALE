@@ -2,16 +2,16 @@ package main.java;
 
 public class Duel extends Jeu {
 
-    public Duel(String number) {
-        super(number);
+    /**
+     * @modeDuel : Methode du mode de jeu en Duel.
+     */
+    private void modeDuel(){
+        System.out.println(toString());
+        saisieManuelCombinaisonSecrete();
+        combinaisonSecreteOrdinateur();
     }
 
-    public void modeDuel(){
-        System.out.println("Bienvenue dans le mode Duel");
-        saisiCombinaisonSecrete();
-    }
-
-    public void jouer(){
+    protected void lancerMDJ(){
         modeDuel();
     }
 }

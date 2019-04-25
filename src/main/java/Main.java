@@ -11,16 +11,16 @@ public class Main {
         System.out.println("Bienvenue dans le lanceur du jeu du Plus ou Moins.");
         System.out.println("Choisissez votre mode de jeu : 1- Challengeur, 2- Défenseur, 3- Duel)");
         do {
-            choixMdj = scanner.nextInt();
+                choixMdj = scanner.nextInt();
             if (choixMdj == 1) {
-                Jeu jeuChall = new Challenger("");
-                jeuChall.jouer();
+                Jeu jeuChall = new Challenger();
+                jeuChall.lancerMDJ();
             } else if (choixMdj == 2){
-                Jeu jeuDef = new Defenseur("");
-                jeuDef.jouer();
+                Jeu jeuDef = new Defenseur();
+                jeuDef.lancerMDJ();
             } else if (choixMdj == 3){
-                Jeu jeuDuel = new Duel("");
-                jeuDuel.jouer();
+                Jeu jeuDuel = new Duel();
+                jeuDuel.lancerMDJ();
             } else {
                 System.err.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
             }
