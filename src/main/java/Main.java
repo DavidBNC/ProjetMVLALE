@@ -8,19 +8,20 @@ public class Main {
 
         Scanner scanner = new Scanner(System.in);
         int choixMdj;
+        Jeu asbtractJeu;
         System.out.println("Bienvenue dans le lanceur du jeu du Plus ou Moins.");
         System.out.println("Choisissez votre mode de jeu : 1- Challengeur, 2- Défenseur, 3- Duel)");
         do {
                 choixMdj = scanner.nextInt();
             if (choixMdj == 1) {
-                Jeu jeuChall = new Challenger();
-                jeuChall.lancerMDJ();
+                asbtractJeu = new Challenger();
+                asbtractJeu.lancerMDJ();
             } else if (choixMdj == 2){
-                Jeu jeuDef = new Defenseur();
-                jeuDef.lancerMDJ();
+                asbtractJeu = new Defenseur();
+                asbtractJeu.lancerMDJ();
             } else if (choixMdj == 3){
-                Jeu jeuDuel = new Duel();
-                jeuDuel.lancerMDJ();
+                asbtractJeu = new Duel();
+                asbtractJeu.lancerMDJ();
             } else {
                 System.err.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
             }
