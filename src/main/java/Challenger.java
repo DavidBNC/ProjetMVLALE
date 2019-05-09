@@ -1,46 +1,24 @@
 package main.java;
 
-import java.util.Scanner;
+public class Challenger extends abstractJeu {
 
-public class Challenger extends Jeu {
-
-    /**
-     * modeChallenger : Methode du mode de jeu en Challenger.
-     */
-    private void modeChallenger(){
-        System.out.println(toString());
-        combinaisonOrdinateur();
-        jouerChall();
-    }
 
     /**
      * jouerChall : Déroulement du jeu en mode challenger.
      */
-    private void jouerChall(){
-        proposition();
-        System.out.println("Proposition : " + getProposition()[0] + "" + getProposition()[1] + "" + getProposition()[2]
-                + "" + getProposition()[3] + " --> Proposition : " + comparaisonChar());
-        }
-
-    /**
-     * comparaisonChar : Renvoi la comparaison des caractères de la proposition.
-     * @return
-     */
-    public String comparaisonChar() {
-
-        for (int i = 0; i <= 3; i++) {
-            if (getProposition()[i] < getCombinaisonOrdinateur()[i]) {
-                return "+";
-            } else if (getProposition()[i] > getCombinaisonOrdinateur()[i]) {
-                return "-";
-            } else {
-                return "=";
-        }
-        }
-        return null;
+    private void jouerChall() {
+                do {
+                propositionUtilisateur();
+                System.out.print("Proposition : ");
+                afficherCombinaison(getPropositionUtil());
+                System.out.println(" --> Réponse : " + comparaisonCombiPropo(getPropositionUtil(),getCombinaisonOrdinateur()));
+                } while (!comparaisonCombiPropo(getPropositionUtil(),getCombinaisonOrdinateur()).equals("===="));
+                System.out.println("Vous avez gagné.");
     }
 
     protected void lancerMDJ(){
-        modeChallenger();
+        System.out.println(toString());
+        combinaisonOrdinateur();
+        jouerChall();
     }
 }

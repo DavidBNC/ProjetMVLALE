@@ -1,17 +1,22 @@
 package main.java;
 
-public class Defenseur extends Jeu {
+public class Defenseur extends abstractJeu {
 
     /**
-     * modeDefenseur : Methode du mode de jeu en Defenseur.
+     * jouerDef : Déroulement du jeu en mode Défenseur.
      */
-    private void modeDefenseur(){
-        System.out.println(toString());
-        saisieCombinaisonSecrete();
-        proposition();
+    private void jouerDef() {
+        do {
+            ia();
+            System.out.print("Proposition : ");
+            afficherCombinaison(getPropositionOrdi());
+            System.out.println(" --> Réponse : " + comparaisonCombiPropo(getPropositionOrdi(), getCombinaisonSaisie()));
+        } while (!comparaisonCombiPropo(getPropositionOrdi(), getCombinaisonSaisie()).equals("===="));
     }
 
     protected void lancerMDJ(){
-        modeDefenseur();
+        System.out.println(toString());
+        saisieCombinaisonSecrete();
+        jouerDef();
     }
 }

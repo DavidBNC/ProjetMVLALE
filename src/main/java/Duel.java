@@ -1,17 +1,26 @@
 package main.java;
 
-public class Duel extends Jeu {
+public class Duel extends abstractJeu {
 
     /**
-     * modeDuel : Methode du mode de jeu en Duel.
+     * jouerDuel : Déroulement du jeu en mode Duel.
      */
-    private void modeDuel(){
-        System.out.println(toString());
-        saisieCombinaisonSecrete();
-        combinaisonOrdinateur();
+    private void jouerDuel() {
+        propositionUtilisateur();
+        System.out.print("Proposition : ");
+        afficherCombinaison(getPropositionUtil());
+        System.out.println(" --> Réponse : " + comparaisonCombiPropo(getPropositionUtil(),getCombinaisonOrdinateur()));
+
+        ia();
+        System.out.print("Proposition : ");
+        afficherCombinaison(getPropositionOrdi());
+        System.out.println(" --> Réponse : " + comparaisonCombiPropo(getPropositionOrdi(), getCombinaisonSaisie()));
     }
 
     protected void lancerMDJ(){
-        modeDuel();
+        System.out.println(toString());
+        combinaisonOrdinateur();
+        saisieCombinaisonSecrete();
+        jouerDuel();
     }
 }
