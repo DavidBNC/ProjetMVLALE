@@ -14,13 +14,14 @@ public class Defenseur extends AbstractJeu {
             System.out.print("Proposition : ");
             afficherCombinaison(getPropositionOrdinateur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));
-        } while (!comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()).equals("===="));
+        } while (ordinateurGagne());
         System.out.println("L'ordinateur a gagné.");
+
     }
 
     protected void jouer(){
         System.out.println(toString());
-        saisieCombinaison();
+        saisie(getCombinaisonJoueur(), "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
         modeDefenseur();
     }
 }

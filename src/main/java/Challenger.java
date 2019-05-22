@@ -11,11 +11,10 @@ public class Challenger extends AbstractJeu {
      */
     private void modeChallenger() {
                 do {
-                propositionJoueur();
-                System.out.print("Proposition : ");
+                saisie(getPropositionJoueur(), "Veuillez choisir une proposition :", "Proposition : ");
                 afficherCombinaison(getPropositionJoueur());
                 System.out.println(" --> Réponse : " + comparaison(getPropositionJoueur(),getCombinaisonOrdinateur()));
-                } while (!comparaison(getPropositionJoueur(),getCombinaisonOrdinateur()).equals("===="));
+                } while (joueurGagne());
                 System.out.println("Vous avez gagné.");
     }
 

@@ -10,22 +10,25 @@ public abstract class AbstractJeu{
     private byte[] combinaisonOrdinateur = new byte[NBR_POSITION];
     private byte[] propositionJoueur = new byte[NBR_POSITION];
     private byte[] propositionOrdinateur = new byte[NBR_POSITION];
+    private byte[] stockageOrdinateur  = new  byte[NBR_POSITION];
 
     public AbstractJeu(){
     }
 
     /**
-     * saisieCombinaison : Saisie manuel du Joueur en passant par différentes conversions +
-     * Stock dans un tableau de byte les caractères un à un de la combinaison secrète.
+     * saisieCombinaison : Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
+     * Stock dans un tableau de byte les caractères un à un de la combinaison secrète ou proposition.
      */
-    protected void saisieCombinaison(){
+    protected void saisie(byte[] saisie, String demande, String reponse){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez entrer votre combinaison secrète :");
-        String strCombi = scanner.nextLine();
-        factorisationJoueur(strCombi, combinaisonJoueur);
-        System.out.print("Combinaison secrète : ");
-        afficherCombinaison(combinaisonJoueur);
-        System.out.println("");
+        System.out.println(demande);
+        String strSaisie = scanner.nextLine();
+        for (int i = 0; i <= NBR_POSITION - 1; i++){
+            char caracSaisie = strSaisie.charAt(i);
+            byte caracSaisieByte = (byte)(caracSaisie - 48);
+            saisie[i] = caracSaisieByte;
+        }
+        System.out.print(reponse);
     }
 
     /**
@@ -46,19 +49,7 @@ public abstract class AbstractJeu{
     }
 
     /**
-     * propositionJoueur : Génère la proposition qui doit être comparé aux combinaisons.
-     */
-
-    protected void propositionJoueur(){
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Veuillez choisir une proposition :");
-        String strProposition = scanner.nextLine();
-        factorisationJoueur(strProposition, propositionJoueur);
-    }
-
-    /**
-     * propositionOrdinateur : Génère la proposition qui doit être comparé aux combinaisons.
+     * propositionOrdinateur : Génère la proposition de l'ordinateur qui doit être comparé aux combinaisons.
      */
 
     protected void propositionOrdinateur(){
@@ -70,28 +61,12 @@ public abstract class AbstractJeu{
 
             if (propositionOrdinateur[i] < combinaisonJoueur[i]){
                 int propoOrdi = min + rdmPropoOrdi.nextInt(max - min);
-                byte bytePropoOrdi = (byte) (propoOrdi);
-                propositionOrdinateur[i] = bytePropoOrdi;
+                propositionOrdinateur[i] = (byte) (propoOrdi);
 
-            } else if (propositionOrdinateur[i] > combinaisonJoueur[i]){
+            } else if (propositionOrdinateur[i] > combinaisonJoueur[i]) {
                 int propoOrdi = rdmPropoOrdi.nextInt(min);
-                byte bytePropoOrdi = (byte)(propoOrdi);
-                propositionOrdinateur[i] = bytePropoOrdi;
-            } else;
-        }
-    }
-
-    /**
-     * factorisationJoueur : Factorisation de la saisie Joueur pour la saisie de la combinaison + proposition.
-     * @param strSaisie
-     * @param saisie
-     */
-    private void factorisationJoueur(String strSaisie, byte[] saisie){
-
-        for (int i = 0; i <= NBR_POSITION - 1; i++){
-            char caracSaisie = strSaisie.charAt(i);
-            byte caracSaisieByte = (byte)(caracSaisie - 48);
-            saisie[i] = caracSaisieByte;
+                propositionOrdinateur[i] = (byte) (propoOrdi);
+            }
         }
     }
 
@@ -126,6 +101,29 @@ public abstract class AbstractJeu{
         for (int i = 0; i <= NBR_POSITION - 1; i++) {
             System.out.print(combi[i]);
         }
+    }
+
+    /**
+     * Boolean pour déterminer si le joueur a gagné.
+     * @return
+     */
+    protected boolean joueurGagne(){
+        if (!comparaison(getPropositionJoueur(),getCombinaisonOrdinateur()).equals("====")){
+            return true;
+        } else
+            return false;
+    }
+
+    /**
+     * Boolean pour déterminer si l'ordinateur a gagné.
+     * @return
+     */
+    protected boolean ordinateurGagne(){
+        if (!comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()).equals("====")){
+            return true;
+        }
+        else
+            return false;
     }
 
     /**

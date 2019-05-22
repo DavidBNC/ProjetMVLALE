@@ -10,8 +10,7 @@ public class Duel extends AbstractJeu {
      */
     private void modeDuel() {
         do {
-            propositionJoueur();
-            System.out.print("Proposition : ");
+            saisie(getPropositionJoueur(), "Veuillez choisir une proposition :", "Proposition : ");
             afficherCombinaison(getPropositionJoueur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionJoueur(), getCombinaisonOrdinateur()));
 
@@ -19,20 +18,20 @@ public class Duel extends AbstractJeu {
             System.out.print("Proposition de l'ordinateur : ");
             afficherCombinaison(getPropositionOrdinateur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));
-        } while (!comparaison(getPropositionJoueur(),getCombinaisonOrdinateur()).equals("====") &&
-                !comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()).equals("===="));
-
-        if (!comparaison(getPropositionJoueur(),getCombinaisonOrdinateur()).equals("====")){
-            System.out.println("L'ordinateur a gagné");
-        } else if (!comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()).equals("====")){
-            System.out.println("Vous avez gagné");
-        } else;
+        } while (joueurGagne() && ordinateurGagne());
+            if (joueurGagne()){
+                System.out.println("L'ordinateur a gagné");
+            } else if (ordinateurGagne()){
+                System.out.println("Vous avez gagné");
+            }
     }
 
     protected void jouer(){
         System.out.println(toString());
         combinaisonOrdinateur();
-        saisieCombinaison();
+        saisie(getCombinaisonJoueur(), "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
+        afficherCombinaison(getCombinaisonJoueur());
+        System.out.println("");
         modeDuel();
     }
 }
