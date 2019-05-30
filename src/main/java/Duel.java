@@ -19,14 +19,14 @@ public class Duel extends AbstractJeu {
             afficherCombinaison(getPropositionOrdinateur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));
         } while (joueurGagne() && ordinateurGagne());
-            if (joueurGagne()){
-                System.out.println("L'ordinateur a gagné");
-            } else if (ordinateurGagne()){
-                System.out.println("Vous avez gagné");
-            }
+        if (joueurGagne()) {
+            System.out.println("L'ordinateur a gagné");
+        } else if (ordinateurGagne()) {
+            System.out.println("Vous avez gagné");
+        }
     }
 
-    protected void jouer(){
+    protected void jouer() {
         System.out.println(toString());
         combinaisonOrdinateur();
         saisie(getCombinaisonJoueur(), "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");

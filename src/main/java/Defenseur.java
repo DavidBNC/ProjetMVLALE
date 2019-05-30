@@ -19,9 +19,11 @@ public class Defenseur extends AbstractJeu {
 
     }
 
-    protected void jouer(){
+    protected void jouer() {
         System.out.println(toString());
         saisie(getCombinaisonJoueur(), "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
+        afficherCombinaison(getCombinaisonJoueur());
+        System.out.println("");
         modeDefenseur();
     }
 }
