@@ -1,15 +1,14 @@
-package main.java;
+package com.david.projetMVLALE;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SaisieException {
 
         Scanner scanner = new Scanner(System.in);
-        int choixMdj = 0;
-        int choixRejouer = 0;
+        int choix = 0;
         AbstractJeu jeu = null;
         System.out.println("Bienvenue dans le lanceur du jeu du Plus ou Moins.");
 
@@ -18,30 +17,30 @@ public class Main {
 
             do {
                 try {
-                    choixMdj = scanner.nextInt();
+                    choix = scanner.nextInt();
                 } catch (InputMismatchException e) {
                     scanner.next();
                     System.err.println("Choisissez un nombre entre 1, 2 et 3");
                 }
-                if (choixMdj == 1) {
+                if (choix == 1) {
                     jeu = new Challenger();
-                } else if (choixMdj == 2) {
+                } else if (choix == 2) {
                     jeu = new Defenseur();
-                } else if (choixMdj == 3) {
+                } else if (choix == 3) {
                     jeu = new Duel();
                 } else {
                     System.out.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
                 }
-            } while (choixMdj < 1 || choixMdj > 3);
+            } while (choix < 1 || choix > 3);
 
             jeu.jouer();
             System.out.println("Voulez vous rejouer ? 1- Rejouer, 2- Fin du jeu");
             try {
-                choixRejouer = scanner.nextInt();
+                choix = scanner.nextInt();
             } catch (InputMismatchException e) {
                 scanner.next();
             }
-        } while (choixRejouer == 1);
+        } while (choix == 1);
         System.out.println("Vous avez fini de jouer.");
     }
 }

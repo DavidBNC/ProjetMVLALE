@@ -1,4 +1,4 @@
-package main.java;
+package com.david.projetMVLALE;
 
 public class Duel extends AbstractJeu {
 
@@ -13,8 +13,7 @@ public class Duel extends AbstractJeu {
             saisie(getPropositionJoueur(), "Veuillez choisir une proposition :", "Proposition : ");
             afficherCombinaison(getPropositionJoueur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionJoueur(), getCombinaisonOrdinateur()));
-
-            propositionOrdinateur();
+            jouerOrdinateur();
             System.out.print("Proposition de l'ordinateur : ");
             afficherCombinaison(getPropositionOrdinateur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));

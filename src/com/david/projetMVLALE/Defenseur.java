@@ -1,8 +1,8 @@
-package main.java;
+package com.david.projetMVLALE;
 
 public class Defenseur extends AbstractJeu {
 
-    public Defenseur() {
+    public Defenseur(){
     }
 
     /**
@@ -10,7 +10,7 @@ public class Defenseur extends AbstractJeu {
      */
     private void modeDefenseur() {
         do {
-            propositionOrdinateur();
+            jouerOrdinateur();
             System.out.print("Proposition : ");
             afficherCombinaison(getPropositionOrdinateur());
             System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));
