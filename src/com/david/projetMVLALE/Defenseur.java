@@ -9,20 +9,19 @@ public class Defenseur extends AbstractJeu {
      * jouerDef : Déroulement du jeu en mode Défenseur.
      */
     private void modeDefenseur() {
+        int compteur = 0;
         do {
             jouerOrdinateur();
             System.out.print("Proposition : ");
-            afficherCombinaison(getPropositionOrdinateur());
-            System.out.println(" --> Réponse : " + comparaison(getPropositionOrdinateur(), getCombinaisonJoueur()));
-        } while (ordinateurGagne());
-        System.out.println("L'ordinateur a gagné.");
-
+            afficherCombinaison(propositionOrdinateur);
+            System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
+        } while (!gagner(compteur));
     }
 
     protected void jouer() {
         System.out.println(toString());
-        saisie(getCombinaisonJoueur(), "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
-        afficherCombinaison(getCombinaisonJoueur());
+        saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
+        afficherCombinaison(combinaisonJoueur);
         System.out.println("");
         modeDefenseur();
     }

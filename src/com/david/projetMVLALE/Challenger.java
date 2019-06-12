@@ -12,15 +12,12 @@ public class Challenger extends AbstractJeu {
     private void modeChallenger() {
         int compteur = 0;
         do {
-
-
-            saisie(getPropositionJoueur(), "Veuillez choisir une proposition :", "Proposition : ");
-            afficherCombinaison(getPropositionJoueur());
-            System.out.println(" --> Réponse : " + comparaison(getPropositionJoueur(), getCombinaisonOrdinateur()));
+            saisie(propositionJoueur, "Veuillez choisir une proposition :", "Proposition : ");
+            afficherCombinaison(propositionJoueur);
+            System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
             compteur++;
             System.out.println(compteur);
-        } while (joueurGagne() || compteur < 6);
-        System.out.println("Vous avez gagné.");
+        } while (!gagner(compteur));
     }
 
     protected void jouer() {
