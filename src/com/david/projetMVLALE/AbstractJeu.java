@@ -12,9 +12,7 @@ public abstract class AbstractJeu {
     protected byte[] propositionOrdinateur = new byte[NBR_POSITION];
     private byte[] propositionHaute = {10, 10, 10, 10};
     private byte[] propositionBasse = {0, 0, 0, 0};
-
-    public AbstractJeu() {
-    }
+    protected int compteur = 0;
 
     /**
      * saisieCombinaison : Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
@@ -29,7 +27,7 @@ public abstract class AbstractJeu {
         do {
             strSaisie = scanner.nextLine();
         } while (!longeurSaisie(strSaisie) || !contenuSaisie(strSaisie));
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
 
             char caracSaisie = strSaisie.charAt(i);
             byte caracSaisieByte = (byte) (caracSaisie - 48);
@@ -45,7 +43,7 @@ public abstract class AbstractJeu {
      */
     protected void combinaisonOrdinateur() {
         Random rdmGenere = new Random();
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             int chiffreOrdinateur = rdmGenere.nextInt(10);
             combinaisonOrdinateur[i] = (byte) (chiffreOrdinateur);
         }
@@ -61,7 +59,7 @@ public abstract class AbstractJeu {
     protected void jouerOrdinateur() {
         Random rdmPropoOrdi = new Random();
 
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             int min = propositionBasse[i];
             int max = propositionHaute[i];
 
@@ -86,7 +84,7 @@ public abstract class AbstractJeu {
     protected String comparaison(byte[] proposition, byte[] combinaison) {
         String str = "";
         String ajout;
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             if (proposition[i] < combinaison[i]) {
                 ajout = "+";
                 str = str + ajout;
@@ -108,7 +106,7 @@ public abstract class AbstractJeu {
      */
     protected void afficherCombinaison(byte[] combi) {
 
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             System.out.print(combi[i]);
         }
     }
@@ -121,7 +119,7 @@ public abstract class AbstractJeu {
      */
     private boolean longeurSaisie(String strSaisie) {
         String comparaison = "";
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             comparaison = comparaison + "C";
         }
         if (strSaisie.length() == comparaison.length()) {
@@ -140,11 +138,11 @@ public abstract class AbstractJeu {
     private boolean contenuSaisie(String strSaisie) {
         String comparer = "";
         String comparant = "";
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             comparant = comparant + "T";
         }
 
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
+        for (int i = 0; i < NBR_POSITION; i++) {
             if (strSaisie.charAt(i) == '0') {
                 comparer = comparer + "T";
             } else if (strSaisie.charAt(i) == '1') {
@@ -176,44 +174,36 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * Boolean pour déterminer si le joueur ou l'ordinateur gagne.
+     * gagner : Boolean pour déterminer si le joueur ou l'ordinateur gagne.
      *
      * @return
      */
-    protected boolean gagner(int compteur) {
-        String strJoueur = "";
-        String strOrdi = "";
-        String joueurGagne = "";
-        String ordiGagne = "";
-
-        for (int i = 0; i <= NBR_POSITION - 1; i++) {
-            joueurGagne = joueurGagne + "J";
-            ordiGagne = ordiGagne + "O";
-            if (propositionJoueur[i] == combinaisonOrdinateur[i]) {
-                strJoueur = strJoueur + "J";
-            } else if (propositionOrdinateur[i] == combinaisonJoueur[i]) {
-                strOrdi = strOrdi + "O";
-            }
-        }
-        if (strJoueur.equals(joueurGagne)) {
+    protected boolean gagner() {
+        if (comparaison(propositionJoueur, combinaisonOrdinateur).equals("====")) {
             System.out.println("Vous avez gagné !");
             return true;
-        } else if (strOrdi.equals(ordiGagne)) {
+        } else if (comparaison(propositionOrdinateur, combinaisonJoueur).equals("====")) {
             System.out.println("L'ordinateur a gagné !");
             return true;
-        } else if (compteur > 6){
-            System.out.println("La partie est perdue.");
-            return true;
-        } else
-            return false;
+        } else return false;
     }
 
-    protected void initialisationCombi(){
-        for (int i = 0; i <= NBR_POSITION - 1; i++){
+    /**
+     * initialisationCombi : Initialise les combinaisons du joueurs et de l'ordinateur dès le départ, afin
+     * d'éviter les bug de code dans certaines situations.
+     */
+    protected void initialisationCombi() {
+        for (int i = 0; i < NBR_POSITION; i++) {
             combinaisonOrdinateur[i] = -1;
             combinaisonJoueur[i] = -1;
         }
     }
+
+    /**
+     * nbrToursMax : Boolean renvoyant le nombre de tours Maximum dans une partie.
+     * @return
+     */
+    protected abstract boolean nbrToursMax();
 
     /**
      * lancerMDJ : Methode pour lancer les différents mode de jeu dans le projetMVLALE.

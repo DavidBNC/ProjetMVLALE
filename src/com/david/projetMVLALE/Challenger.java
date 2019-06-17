@@ -2,27 +2,30 @@ package com.david.projetMVLALE;
 
 public class Challenger extends AbstractJeu {
 
-
-    public Challenger(){
-    }
-
     /**
      * jouerChall : Déroulement du jeu en mode challenger.
      */
     private void modeChallenger() {
-        int compteur = 0;
         do {
+            compteur++;
             saisie(propositionJoueur, "Veuillez choisir une proposition :", "Proposition : ");
             afficherCombinaison(propositionJoueur);
             System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
-            compteur++;
-            System.out.println(compteur);
-        } while (!gagner(compteur));
+        } while (!gagner() && nbrToursMax());
     }
 
     protected void jouer() {
         System.out.println(toString());
+        initialisationCombi();
         combinaisonOrdinateur();
         modeChallenger();
+    }
+
+    protected boolean nbrToursMax() {
+        if (compteur < 6) {
+            return true;
+        } else
+            System.out.println("Vous avez perdu.");
+        return false;
     }
 }

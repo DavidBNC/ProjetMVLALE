@@ -2,14 +2,10 @@ package com.david.projetMVLALE;
 
 public class Duel extends AbstractJeu {
 
-    public Duel() {
-    }
-
     /**
      * jouerDuel : Déroulement du jeu en mode Duel.
      */
     private void modeDuel() {
-        int compteur = 0;
         do {
             saisie(propositionJoueur, "Veuillez choisir une proposition :", "Proposition : ");
             afficherCombinaison(propositionJoueur);
@@ -18,7 +14,7 @@ public class Duel extends AbstractJeu {
             System.out.print("Proposition de l'ordinateur : ");
             afficherCombinaison(propositionOrdinateur);
             System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
-        } while (!gagner(compteur));
+        } while (!gagner());
     }
 
     protected void jouer() {
@@ -28,5 +24,9 @@ public class Duel extends AbstractJeu {
         afficherCombinaison(combinaisonJoueur);
         System.out.println("");
         modeDuel();
+    }
+
+    protected boolean nbrToursMax() {
+        return false;
     }
 }
