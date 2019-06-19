@@ -20,8 +20,6 @@ public abstract class AbstractJeu {
      */
     protected void saisie(byte[] saisie, String demande, String reponse) {
         String strSaisie;
-
-
         Scanner scanner = new Scanner(System.in);
         System.out.println(demande);
         do {
@@ -201,6 +199,7 @@ public abstract class AbstractJeu {
 
     /**
      * nbrToursMax : Boolean renvoyant le nombre de tours Maximum dans une partie.
+     *
      * @return
      */
     protected abstract boolean nbrToursMax();

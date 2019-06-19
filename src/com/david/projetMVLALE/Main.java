@@ -7,40 +7,50 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Scanner scanner = new Scanner(System.in);
-        int choix = 0;
+        Scanner scChoixMdj = new Scanner(System.in);
+        Scanner scFinDeJeu = new Scanner(System.in);
+        int choixMDJ = 0;
+        int choixFinDeJeu = 0;
         AbstractJeu jeu = null;
-        System.out.println("Bienvenue dans le lanceur du jeu du Plus ou Moins.");
 
         do {
+            System.out.println("Bienvenue dans le lanceur du jeu du Plus ou Moins.");
             System.out.println("Choisissez votre mode de jeu : 1- Challengeur, 2- Défenseur, 3- Duel)");
 
             do {
                 try {
-                    choix = scanner.nextInt();
+                    choixMDJ = scChoixMdj.nextInt();
                 } catch (InputMismatchException e) {
-                    scanner.next();
+                    scChoixMdj.next();
                     System.err.println("Choisissez un nombre entre 1, 2 et 3");
                 }
-                if (choix == 1) {
+                if (choixMDJ == 1) {
                     jeu = new Challenger();
-                } else if (choix == 2) {
+                } else if (choixMDJ == 2) {
                     jeu = new Defenseur();
-                } else if (choix == 3) {
+                } else if (choixMDJ == 3) {
                     jeu = new Duel();
                 } else {
                     System.out.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
                 }
-            } while (choix < 1 || choix > 3);
+            } while (choixMDJ < 1 || choixMDJ > 3);
 
             jeu.jouer();
-            System.out.println("Voulez vous rejouer ? 1- Rejouer, 2- Fin du jeu");
-            try {
-                choix = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                scanner.next();
-            }
-        } while (choix == 1);
+            do {
+                do {
+                    System.out.println("Voulez vous rejouer ? 1- Revenir au menu, 2- Rejouer le même mode de jeu, 3- Fin du jeu");
+                    try {
+                        choixFinDeJeu = scFinDeJeu.nextInt();
+                    } catch (InputMismatchException e) {
+                        scFinDeJeu.next();
+                        System.err.println("Choisissez un nombre entre 1, 2 et 3");
+                    }
+                } while (choixFinDeJeu != 1 && choixFinDeJeu != 2 && choixFinDeJeu != 3);
+                if (choixFinDeJeu == 2) {
+                    jeu.jouer();
+                }
+            } while (choixFinDeJeu == 2);
+        } while (choixFinDeJeu == 1);
         System.out.println("Vous avez fini de jouer.");
     }
 }
