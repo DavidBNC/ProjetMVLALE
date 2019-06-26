@@ -12,7 +12,10 @@ public class Defenseur extends AbstractJeu {
             System.out.print("Proposition : ");
             afficherCombinaison(propositionOrdinateur);
             System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
-        } while (!gagner() && nbrToursMax());
+        } while (!gagner && nbrToursMax());
+        if (gagner) {
+            System.out.println("L'ordinateur a gagné !!");
+        }
     }
 
     protected void jouer() {

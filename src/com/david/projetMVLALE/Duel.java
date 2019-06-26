@@ -14,12 +14,16 @@ public class Duel extends AbstractJeu {
             System.out.print("Proposition de l'ordinateur : ");
             afficherCombinaison(propositionOrdinateur);
             System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
-        } while (!gagner());
+        } while (!gagner);
     }
 
     protected void jouer() {
         System.out.println(toString());
-        combinaisonOrdinateur();
+        initialisationCombi();
+        combinaisonOrdinateur(combinaisonOrdinateur);
+        System.out.print("L'ordinateur a choisi la combinaison : ");
+        afficherCombinaison(combinaisonOrdinateur);
+        System.out.println("");
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
         afficherCombinaison(combinaisonJoueur);
         System.out.println("");

@@ -38,14 +38,14 @@ public class Main {
             jeu.jouer();
             do {
                 do {
+                    choixFinDeJeu = 0;
                     System.out.println("Voulez vous rejouer ? 1- Revenir au menu, 2- Rejouer le même mode de jeu, 3- Fin du jeu");
                     try {
                         choixFinDeJeu = scFinDeJeu.nextInt();
                     } catch (InputMismatchException e) {
                         scFinDeJeu.next();
-                        System.err.println("Choisissez un nombre entre 1, 2 et 3");
                     }
-                } while (choixFinDeJeu != 1 && choixFinDeJeu != 2 && choixFinDeJeu != 3);
+                } while (choixFinDeJeu < 1 || choixFinDeJeu > 3);
                 if (choixFinDeJeu == 2) {
                     jeu.jouer();
                 }

@@ -10,9 +10,10 @@ public abstract class AbstractJeu {
     protected byte[] combinaisonOrdinateur = new byte[NBR_POSITION];
     protected byte[] propositionJoueur = new byte[NBR_POSITION];
     protected byte[] propositionOrdinateur = new byte[NBR_POSITION];
-    private byte[] propositionHaute = {10, 10, 10, 10};
-    private byte[] propositionBasse = {0, 0, 0, 0};
+    protected byte[] propositionHaute = new byte[NBR_POSITION];
+    protected byte[] propositionBasse = new byte[NBR_POSITION];
     protected int compteur = 0;
+    protected boolean gagner;
 
     /**
      * saisieCombinaison : Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
@@ -39,15 +40,12 @@ public abstract class AbstractJeu {
      * combinaisonOrdinateur : Génère la combinaison secrète de l'ordinateur en passant par différentes conversions +
      * Stock dans un tableau de byte les caractères un à un de la combinaison secrète.
      */
-    protected void combinaisonOrdinateur() {
+    protected void combinaisonOrdinateur(byte[] tabl) {
         Random rdmGenere = new Random();
         for (int i = 0; i < NBR_POSITION; i++) {
             int chiffreOrdinateur = rdmGenere.nextInt(10);
-            combinaisonOrdinateur[i] = (byte) (chiffreOrdinateur);
+            tabl[i] = (byte) (chiffreOrdinateur);
         }
-        System.out.print("L'ordinateur a choisi la combinaison : ");
-        afficherCombinaison(combinaisonOrdinateur);
-        System.out.println("");
     }
 
     /**
@@ -80,19 +78,23 @@ public abstract class AbstractJeu {
      * @return
      */
     protected String comparaison(byte[] proposition, byte[] combinaison) {
+        gagner = false;
         String str = "";
         String ajout;
         for (int i = 0; i < NBR_POSITION; i++) {
             if (proposition[i] < combinaison[i]) {
                 ajout = "+";
-                str = str + ajout;
+                str += ajout;
             } else if (proposition[i] > combinaison[i]) {
                 ajout = "-";
-                str = str + ajout;
+                str += ajout;
             } else {
                 ajout = "=";
-                str = str + ajout;
+                str += ajout;
             }
+        }
+        if (compteurCaractere(str, '=') == 4) {
+            gagner = true;
         }
         return str;
     }
@@ -118,7 +120,7 @@ public abstract class AbstractJeu {
     private boolean longeurSaisie(String strSaisie) {
         String comparaison = "";
         for (int i = 0; i < NBR_POSITION; i++) {
-            comparaison = comparaison + "C";
+            comparaison += "C";
         }
         if (strSaisie.length() == comparaison.length()) {
             return true;
@@ -137,32 +139,32 @@ public abstract class AbstractJeu {
         String comparer = "";
         String comparant = "";
         for (int i = 0; i < NBR_POSITION; i++) {
-            comparant = comparant + "T";
+            comparant += "T";
         }
 
         for (int i = 0; i < NBR_POSITION; i++) {
             if (strSaisie.charAt(i) == '0') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '1') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '2') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '3') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '4') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '5') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '6') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '7') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else if (strSaisie.charAt(i) == '8') {
                 comparer = comparer + "T";
             } else if (strSaisie.charAt(i) == '9') {
-                comparer = comparer + "T";
+                comparer += "T";
             } else
-                comparer = comparer + "F";
+                comparer += "F";
         }
         if (comparer.equals(comparant)) {
             return true;
@@ -172,29 +174,35 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * gagner : Boolean pour déterminer si le joueur ou l'ordinateur gagne.
-     *
-     * @return
-     */
-    protected boolean gagner() {
-        if (comparaison(propositionJoueur, combinaisonOrdinateur).equals("====")) {
-            System.out.println("Vous avez gagné !");
-            return true;
-        } else if (comparaison(propositionOrdinateur, combinaisonJoueur).equals("====")) {
-            System.out.println("L'ordinateur a gagné !");
-            return true;
-        } else return false;
-    }
-
-    /**
-     * initialisationCombi : Initialise les combinaisons du joueurs et de l'ordinateur dès le départ, afin
-     * d'éviter les bug de code dans certaines situations.
+     * initialisationCombi : Initialise/réinitialise les combinaisons/propositions/compteur
+     * du joueur et de l'ordinateur dès le départ du jeu.
      */
     protected void initialisationCombi() {
         for (int i = 0; i < NBR_POSITION; i++) {
-            combinaisonOrdinateur[i] = -1;
-            combinaisonJoueur[i] = -1;
+            combinaisonOrdinateur[i] = 0;
+            combinaisonJoueur[i] = 0;
+            propositionJoueur[i] = -1;
+            propositionOrdinateur[i] = -1;
+            propositionHaute[i] = 10;
+            propositionBasse[i] = 0;
+            compteur = 0;
         }
+    }
+
+    /**
+     * compteurCaractere : Compte le nombre d'un caractère voulu dans un String.
+     *
+     * @param chaineCarac
+     * @param caracRechercher
+     * @return
+     */
+    private int compteurCaractere(String chaineCarac, char caracRechercher) {
+        int nb = 0;
+        for (int i = 0; i < chaineCarac.length(); i++) {
+            if (chaineCarac.charAt(i) == caracRechercher)
+                nb++;
+        }
+        return nb;
     }
 
     /**
