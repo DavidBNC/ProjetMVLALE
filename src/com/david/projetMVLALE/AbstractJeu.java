@@ -29,8 +29,7 @@ public abstract class AbstractJeu {
         for (int i = 0; i < NBR_POSITION; i++) {
 
             char caracSaisie = strSaisie.charAt(i);
-            byte caracSaisieByte = (byte) (caracSaisie - 48);
-            saisie[i] = caracSaisieByte;
+            saisie[i] = (byte) (caracSaisie - 48);
         }
 
         System.out.print(reponse);
@@ -52,12 +51,15 @@ public abstract class AbstractJeu {
      * jouerOrdinateur : Fais jouer l'intelligence artificielle de l'ordinateur.
      */
 
-    protected void jouerOrdinateur() {
+    private void jouerOrdinateur() {
         Random rdmPropoOrdi = new Random();
 
         for (int i = 0; i < NBR_POSITION; i++) {
-            int min = propositionBasse[i];
+            int min = 0;
             int max = propositionHaute[i];
+            if (propositionBasse[i] != 0) {
+                min = propositionBasse[i] + 1;
+            }
 
             if (propositionOrdinateur[i] != combinaisonJoueur[i]) {
                 int propoOrdi = min + rdmPropoOrdi.nextInt(max - min);
@@ -75,28 +77,46 @@ public abstract class AbstractJeu {
     /**
      * comparaison : Renvoi la comparaison de chaque caractères de la proposition.
      *
-     * @return
+     * @return str
      */
-    protected String comparaison(byte[] proposition, byte[] combinaison) {
+    private String comparaison(byte[] proposition, byte[] combinaison) {
+        int compteurCarac = 0;
         gagner = false;
         String str = "";
-        String ajout;
+
         for (int i = 0; i < NBR_POSITION; i++) {
             if (proposition[i] < combinaison[i]) {
-                ajout = "+";
-                str += ajout;
+                str += '+';
             } else if (proposition[i] > combinaison[i]) {
-                ajout = "-";
-                str += ajout;
+                str += '-';
             } else {
-                ajout = "=";
-                str += ajout;
+                compteurCarac++;
+                str += '=';
             }
         }
-        if (compteurCaractere(str, '=') == 4) {
+        if (compteurCarac == NBR_POSITION) {
             gagner = true;
         }
         return str;
+    }
+
+    /**
+     * tourJoueur : Methode du tour du Joueur.
+     */
+    protected void tourJoueur(){
+        saisie(propositionJoueur, "Veuillez choisir une proposition :", "Votre proposition : ");
+        afficherCombinaison(propositionJoueur);
+        System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
+    }
+
+    /**
+     * tourOrdinateur : Methode du tour de l'ordinateur.
+     */
+    protected void tourOrdinateur(){
+        jouerOrdinateur();
+        System.out.print("Proposition : ");
+        afficherCombinaison(propositionOrdinateur);
+        System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
     }
 
     /**
@@ -118,11 +138,8 @@ public abstract class AbstractJeu {
      * @return
      */
     private boolean longeurSaisie(String strSaisie) {
-        String comparaison = "";
-        for (int i = 0; i < NBR_POSITION; i++) {
-            comparaison += "C";
-        }
-        if (strSaisie.length() == comparaison.length()) {
+
+        if (strSaisie.length() == NBR_POSITION) {
             return true;
         } else
             System.err.println("Veuillez choisir une saisie de " + NBR_POSITION + " chiffres.");
@@ -136,41 +153,14 @@ public abstract class AbstractJeu {
      * @return
      */
     private boolean contenuSaisie(String strSaisie) {
-        String comparer = "";
-        String comparant = "";
-        for (int i = 0; i < NBR_POSITION; i++) {
-            comparant += "T";
-        }
 
         for (int i = 0; i < NBR_POSITION; i++) {
-            if (strSaisie.charAt(i) == '0') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '1') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '2') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '3') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '4') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '5') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '6') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '7') {
-                comparer += "T";
-            } else if (strSaisie.charAt(i) == '8') {
-                comparer = comparer + "T";
-            } else if (strSaisie.charAt(i) == '9') {
-                comparer += "T";
-            } else
-                comparer += "F";
+            if (strSaisie.charAt(i) < '0' || strSaisie.charAt(i) > '9') {
+                System.err.println("Veuillez choisir une saisie de " + NBR_POSITION + " chiffres.");
+                return false;
+            }
         }
-        if (comparer.equals(comparant)) {
-            return true;
-        } else
-            System.err.println("Veuillez choisir une saisie de " + NBR_POSITION + " chiffres.");
-        return false;
+        return true;
     }
 
     /**
@@ -187,22 +177,6 @@ public abstract class AbstractJeu {
             propositionBasse[i] = 0;
             compteur = 0;
         }
-    }
-
-    /**
-     * compteurCaractere : Compte le nombre d'un caractère voulu dans un String.
-     *
-     * @param chaineCarac
-     * @param caracRechercher
-     * @return
-     */
-    private int compteurCaractere(String chaineCarac, char caracRechercher) {
-        int nb = 0;
-        for (int i = 0; i < chaineCarac.length(); i++) {
-            if (chaineCarac.charAt(i) == caracRechercher)
-                nb++;
-        }
-        return nb;
     }
 
     /**

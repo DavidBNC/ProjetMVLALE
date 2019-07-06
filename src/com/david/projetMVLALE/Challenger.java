@@ -8,9 +8,8 @@ public class Challenger extends AbstractJeu {
     private void modeChallenger() {
         do {
             compteur++;
-            saisie(propositionJoueur, "Veuillez choisir une proposition :", "Proposition : ");
-            afficherCombinaison(propositionJoueur);
-            System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
+            tourJoueur();
+            System.out.println("----------------------------");
         } while (!gagner && nbrToursMax());
         if (gagner) {
             System.out.println("Vous avez gagné !!");

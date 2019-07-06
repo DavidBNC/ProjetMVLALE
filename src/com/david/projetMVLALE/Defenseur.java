@@ -8,10 +8,8 @@ public class Defenseur extends AbstractJeu {
     private void modeDefenseur() {
         do {
             compteur++;
-            jouerOrdinateur();
-            System.out.print("Proposition : ");
-            afficherCombinaison(propositionOrdinateur);
-            System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
+            tourOrdinateur();
+            System.out.println("----------------------------");
         } while (!gagner && nbrToursMax());
         if (gagner) {
             System.out.println("L'ordinateur a gagné !!");

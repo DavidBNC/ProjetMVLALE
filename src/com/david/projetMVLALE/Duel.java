@@ -1,20 +1,55 @@
 package com.david.projetMVLALE;
 
+import java.util.Random;
+
 public class Duel extends AbstractJeu {
 
     /**
      * jouerDuel : Déroulement du jeu en mode Duel.
      */
     private void modeDuel() {
-        do {
-            saisie(propositionJoueur, "Veuillez choisir une proposition :", "Proposition : ");
-            afficherCombinaison(propositionJoueur);
-            System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
-            jouerOrdinateur();
-            System.out.print("Proposition de l'ordinateur : ");
-            afficherCombinaison(propositionOrdinateur);
-            System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
-        } while (!gagner);
+        int quiCommence;
+        boolean joueurGagne = false;
+        boolean ordiGagne = false;
+        Joueur joueur = Joueur.JOUEUR;
+        Joueur ordi = Joueur.ORDINATEUR;
+        Random rand = new Random();
+
+        quiCommence = rand.nextInt(2);
+        if (quiCommence == 0) {
+            System.out.println(joueur.lancementDuel());
+            do {
+                tourJoueur();
+                if (gagner) {
+                    joueurGagne = true;
+                    continue;
+                }
+                tourOrdinateur();
+                if (gagner) {
+                    ordiGagne = true;
+                }
+                System.out.println("----------------------------");
+            } while (!joueurGagne && !ordiGagne);
+
+        } else if (quiCommence == 1) {
+            System.out.println(ordi.lancementDuel());
+            do {
+                tourOrdinateur();
+                if (gagner) {
+                    ordiGagne = true;
+                    continue;
+                }
+                tourJoueur();
+                if (gagner) {
+                    joueurGagne = true;
+                }
+                System.out.println("----------------------------");
+            } while (!joueurGagne && !ordiGagne);
+        }
+        if (joueurGagne) {
+            System.out.println(joueur.toString());
+        } else
+            System.out.println(ordi.toString());
     }
 
     protected void jouer() {
