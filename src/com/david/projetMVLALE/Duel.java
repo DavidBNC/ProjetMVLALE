@@ -11,13 +11,11 @@ public class Duel extends AbstractJeu {
         int quiCommence;
         boolean joueurGagne = false;
         boolean ordiGagne = false;
-        Joueur joueur = Joueur.JOUEUR;
-        Joueur ordi = Joueur.ORDINATEUR;
         Random rand = new Random();
 
         quiCommence = rand.nextInt(2);
         if (quiCommence == 0) {
-            System.out.println(joueur.lancementDuel());
+            System.out.println("Tu commences à jouer.");
             do {
                 tourJoueur();
                 if (gagner) {
@@ -32,7 +30,7 @@ public class Duel extends AbstractJeu {
             } while (!joueurGagne && !ordiGagne);
 
         } else if (quiCommence == 1) {
-            System.out.println(ordi.lancementDuel());
+            System.out.println("L'ordinateur commence à jouer.");
             do {
                 tourOrdinateur();
                 if (gagner) {
@@ -47,9 +45,9 @@ public class Duel extends AbstractJeu {
             } while (!joueurGagne && !ordiGagne);
         }
         if (joueurGagne) {
-            System.out.println(joueur.toString());
+            System.out.println("Vous avez gagné la partie.");
         } else
-            System.out.println(ordi.toString());
+            System.out.println("L'ordinateur a gagné la partie.");
     }
 
     protected void jouer() {

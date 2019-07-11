@@ -80,7 +80,7 @@ public abstract class AbstractJeu {
      * @return str
      */
     private String comparaison(byte[] proposition, byte[] combinaison) {
-        int compteurCarac = 0;
+        int nbPositionCorrecte = 0;
         gagner = false;
         String str = "";
 
@@ -90,11 +90,11 @@ public abstract class AbstractJeu {
             } else if (proposition[i] > combinaison[i]) {
                 str += '-';
             } else {
-                compteurCarac++;
+                nbPositionCorrecte++;
                 str += '=';
             }
         }
-        if (compteurCarac == NBR_POSITION) {
+        if (nbPositionCorrecte == NBR_POSITION) {
             gagner = true;
         }
         return str;
