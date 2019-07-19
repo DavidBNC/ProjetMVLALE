@@ -1,11 +1,27 @@
 package com.david.projetMVLALE;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.InputMismatchException;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        try (InputStream input = new FileInputStream("src\\com\\david\\ressources\\config.properties")) {
+            Properties prop = new Properties();
+
+            prop.load(input);
+
+            System.out.println(prop.getProperty("nbr-Position"));
+            System.out.println(prop.getProperty("CompteurPerdu"));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
         Scanner scChoixMdj = new Scanner(System.in);
         Scanner scFinDeJeu = new Scanner(System.in);
