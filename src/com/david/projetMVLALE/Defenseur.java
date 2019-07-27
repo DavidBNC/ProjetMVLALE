@@ -2,6 +2,10 @@ package com.david.projetMVLALE;
 
 public class Defenseur extends AbstractJeu {
 
+    public Defenseur(int nbrPosition) {
+        super(nbrPosition);
+    }
+
     /**
      * jouerDef : Déroulement du jeu en mode Défenseur.
      */

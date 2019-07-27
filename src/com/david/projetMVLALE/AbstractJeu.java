@@ -4,16 +4,20 @@ import java.util.Random;
 import java.util.Scanner;
 
 public abstract class AbstractJeu {
-    private static final int NBR_POSITION = 4;
 
-    protected byte[] combinaisonJoueur = new byte[NBR_POSITION];
-    protected byte[] combinaisonOrdinateur = new byte[NBR_POSITION];
-    protected byte[] propositionJoueur = new byte[NBR_POSITION];
-    protected byte[] propositionOrdinateur = new byte[NBR_POSITION];
-    protected byte[] propositionHaute = new byte[NBR_POSITION];
-    protected byte[] propositionBasse = new byte[NBR_POSITION];
+    protected int nbrPosition;
+    protected byte[] combinaisonJoueur = new byte[nbrPosition];
+    protected byte[] combinaisonOrdinateur = new byte[nbrPosition];
+    protected byte[] propositionJoueur = new byte[nbrPosition];
+    protected byte[] propositionOrdinateur = new byte[nbrPosition];
+    protected byte[] propositionHaute = new byte[nbrPosition];
+    protected byte[] propositionBasse = new byte[nbrPosition];
     protected int compteur = 0;
     protected boolean gagner;
+
+    public AbstractJeu(int nbrPosition) {
+        this.nbrPosition = nbrPosition;
+    }
 
     /**
      * saisieCombinaison : Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
@@ -26,7 +30,7 @@ public abstract class AbstractJeu {
         do {
             strSaisie = scanner.nextLine();
         } while (!longeurSaisie(strSaisie) || !contenuSaisie(strSaisie));
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
 
             char caracSaisie = strSaisie.charAt(i);
             saisie[i] = (byte) (caracSaisie - 48);
@@ -41,7 +45,7 @@ public abstract class AbstractJeu {
      */
     protected void combinaisonOrdinateur(byte[] tabl) {
         Random rdmGenere = new Random();
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             int chiffreOrdinateur = rdmGenere.nextInt(10);
             tabl[i] = (byte) (chiffreOrdinateur);
         }
@@ -54,7 +58,7 @@ public abstract class AbstractJeu {
     private void jouerOrdinateur() {
         Random rdmPropoOrdi = new Random();
 
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             int min = 0;
             int max = propositionHaute[i];
             if (propositionBasse[i] != 0) {
@@ -84,7 +88,7 @@ public abstract class AbstractJeu {
         gagner = false;
         String str = "";
 
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             if (proposition[i] < combinaison[i]) {
                 str += '+';
             } else if (proposition[i] > combinaison[i]) {
@@ -94,7 +98,7 @@ public abstract class AbstractJeu {
                 str += '=';
             }
         }
-        if (nbPositionCorrecte == NBR_POSITION) {
+        if (nbPositionCorrecte == nbrPosition) {
             gagner = true;
         }
         return str;
@@ -126,7 +130,7 @@ public abstract class AbstractJeu {
      */
     protected void afficherCombinaison(byte[] combi) {
 
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             System.out.print(combi[i]);
         }
     }
@@ -139,10 +143,10 @@ public abstract class AbstractJeu {
      */
     private boolean longeurSaisie(String strSaisie) {
 
-        if (strSaisie.length() == NBR_POSITION) {
+        if (strSaisie.length() == nbrPosition) {
             return true;
         } else
-            System.err.println("Veuillez choisir une saisie de " + NBR_POSITION + " chiffres.");
+            System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
         return false;
     }
 
@@ -154,9 +158,9 @@ public abstract class AbstractJeu {
      */
     private boolean contenuSaisie(String strSaisie) {
 
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             if (strSaisie.charAt(i) < '0' || strSaisie.charAt(i) > '9') {
-                System.err.println("Veuillez choisir une saisie de " + NBR_POSITION + " chiffres.");
+                System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
                 return false;
             }
         }
@@ -168,7 +172,7 @@ public abstract class AbstractJeu {
      * du joueur et de l'ordinateur dès le départ du jeu.
      */
     protected void initialisationCombi() {
-        for (int i = 0; i < NBR_POSITION; i++) {
+        for (int i = 0; i < nbrPosition; i++) {
             combinaisonOrdinateur[i] = 0;
             combinaisonJoueur[i] = 0;
             propositionJoueur[i] = -1;

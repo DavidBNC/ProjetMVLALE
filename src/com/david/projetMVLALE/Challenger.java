@@ -2,6 +2,10 @@ package com.david.projetMVLALE;
 
 public class Challenger extends AbstractJeu {
 
+    public Challenger(int nbrPosition) {
+        super(nbrPosition);
+    }
+
     /**
      * jouerChall : Déroulement du jeu en mode challenger.
      */
