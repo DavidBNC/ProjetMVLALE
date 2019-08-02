@@ -1,14 +1,28 @@
 package com.david.projetMVLALE;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class Defenseur extends AbstractJeu {
 
-    public Defenseur(int nbrPosition) {
-        super(nbrPosition);
+    public Defenseur() {
+        try (InputStream input = new FileInputStream("src/com/david/projetMVLALE/config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+
+            compteurMax = Integer.parseInt(prop.getProperty("CompteurPerdu"));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
-     * jouerDef : Déroulement du jeu en mode Défenseur.
+     * Déroulement du jeu en mode Défenseur.
      */
+
     private void modeDefenseur() {
         do {
             compteur++;
@@ -30,7 +44,7 @@ public class Defenseur extends AbstractJeu {
     }
 
     protected boolean nbrToursMax() {
-        if (compteur < 6) {
+        if (compteur < compteurMax) {
             return true;
         } else
             System.out.println("L'ordinateur a perdu.");

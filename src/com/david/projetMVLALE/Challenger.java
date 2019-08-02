@@ -1,13 +1,26 @@
 package com.david.projetMVLALE;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class Challenger extends AbstractJeu {
 
-    public Challenger(int nbrPosition) {
-        super(nbrPosition);
+    public Challenger() {
+        try (InputStream input = new FileInputStream("src/com/david/projetMVLALE/config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+
+            compteurMax = Integer.parseInt(prop.getProperty("CompteurPerdu"));
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
-     * jouerChall : Déroulement du jeu en mode challenger.
+     * Déroulement du jeu en mode challenger.
      */
     private void modeChallenger() {
         do {
@@ -31,7 +44,7 @@ public class Challenger extends AbstractJeu {
     }
 
     protected boolean nbrToursMax() {
-        if (compteur < 6) {
+        if (compteur < compteurMax) {
             return true;
         } else
             System.out.println("Vous avez perdu.");

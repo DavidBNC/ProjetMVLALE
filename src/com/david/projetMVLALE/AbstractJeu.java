@@ -1,26 +1,44 @@
 package com.david.projetMVLALE;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
 
 public abstract class AbstractJeu {
 
     protected int nbrPosition;
-    protected byte[] combinaisonJoueur = new byte[nbrPosition];
-    protected byte[] combinaisonOrdinateur = new byte[nbrPosition];
-    protected byte[] propositionJoueur = new byte[nbrPosition];
-    protected byte[] propositionOrdinateur = new byte[nbrPosition];
-    protected byte[] propositionHaute = new byte[nbrPosition];
-    protected byte[] propositionBasse = new byte[nbrPosition];
-    protected int compteur = 0;
+    protected int compteur;
+    protected int compteurMax;
     protected boolean gagner;
+    protected byte[] combinaisonJoueur;
+    protected byte[] combinaisonOrdinateur;
+    protected byte[] propositionJoueur;
+    protected byte[] propositionOrdinateur;
+    protected byte[] propositionHaute;
+    protected byte[] propositionBasse;
 
-    public AbstractJeu(int nbrPosition) {
-        this.nbrPosition = nbrPosition;
+    public AbstractJeu() {
+        try (InputStream input = new FileInputStream("src/com/david/projetMVLALE/config.properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+
+            nbrPosition = Integer.parseInt(prop.getProperty("nbr-Position"));
+            combinaisonJoueur = new byte[nbrPosition];
+            combinaisonOrdinateur = new byte[nbrPosition];
+            propositionJoueur = new byte[nbrPosition];
+            propositionOrdinateur = new byte[nbrPosition];
+            propositionHaute = new byte[nbrPosition];
+            propositionBasse = new byte[nbrPosition];
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
-     * saisieCombinaison : Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
+     * Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
      * Stock dans un tableau de byte les caractères un à un de la combinaison secrète ou proposition.
      */
     protected void saisie(byte[] saisie, String demande, String reponse) {
@@ -40,7 +58,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * combinaisonOrdinateur : Génère la combinaison secrète de l'ordinateur en passant par différentes conversions +
+     * Génère la combinaison secrète de l'ordinateur en passant par différentes conversions +
      * Stock dans un tableau de byte les caractères un à un de la combinaison secrète.
      */
     protected void combinaisonOrdinateur(byte[] tabl) {
@@ -52,7 +70,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * jouerOrdinateur : Fais jouer l'intelligence artificielle de l'ordinateur.
+     * Fais jouer l'intelligence artificielle de l'ordinateur.
      */
 
     private void jouerOrdinateur() {
@@ -69,7 +87,11 @@ public abstract class AbstractJeu {
                 int propoOrdi = min + rdmPropoOrdi.nextInt(max - min);
                 propositionOrdinateur[i] = (byte) (propoOrdi);
 
-                if (propositionOrdinateur[i] < combinaisonJoueur[i]) {
+                if (propositionOrdinateur[i] < combinaisonJoueur[i])
+                {
+                    if (propositionOrdinateur[i] == 0){
+                        propositionBasse[i] = (byte) (propositionOrdinateur[i] + 1);
+                    } else
                     propositionBasse[i] = propositionOrdinateur[i];
                 } else {
                     propositionHaute[i] = propositionOrdinateur[i];
@@ -79,7 +101,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * comparaison : Renvoi la comparaison de chaque caractères de la proposition.
+     * Renvoi la comparaison de chaque caractères de la proposition.
      *
      * @return str
      */
@@ -105,18 +127,18 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * tourJoueur : Methode du tour du Joueur.
+     * Methode du tour du Joueur.
      */
-    protected void tourJoueur(){
+    protected void tourJoueur() {
         saisie(propositionJoueur, "Veuillez choisir une proposition :", "Votre proposition : ");
         afficherCombinaison(propositionJoueur);
         System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
     }
 
     /**
-     * tourOrdinateur : Methode du tour de l'ordinateur.
+     * Methode du tour de l'ordinateur.
      */
-    protected void tourOrdinateur(){
+    protected void tourOrdinateur() {
         jouerOrdinateur();
         System.out.print("Proposition : ");
         afficherCombinaison(propositionOrdinateur);
@@ -124,7 +146,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * afficherCombinaison : Affiche la combinaison.
+     * Affiche la combinaison.
      *
      * @param combi
      */
@@ -136,7 +158,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * longeurSaisie : Vérifie la longueur d'une saisie.
+     * Vérifie la longueur d'une saisie.
      *
      * @param strSaisie
      * @return
@@ -151,7 +173,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * contenuSaisie : Vérifie si le contenu de la saisie est correcte.
+     * Vérifie si le contenu de la saisie est correcte.
      *
      * @param strSaisie
      * @return
@@ -168,7 +190,7 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * initialisationCombi : Initialise/réinitialise les combinaisons/propositions/compteur
+     * Initialise/réinitialise les combinaisons/propositions/compteur
      * du joueur et de l'ordinateur dès le départ du jeu.
      */
     protected void initialisationCombi() {
@@ -184,19 +206,19 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * nbrToursMax : Boolean renvoyant le nombre de tours Maximum dans une partie.
+     * Boolean renvoyant le nombre de tours Maximum dans une partie.
      *
      * @return
      */
     protected abstract boolean nbrToursMax();
 
     /**
-     * lancerMDJ : Methode pour lancer les différents mode de jeu dans le projetMVLALE.
+     * Methode pour lancer les différents mode de jeu dans le projetMVLALE.
      */
     protected abstract void jouer();
 
     /**
-     * toString : Envoi le message de bienvenue a chaque début de mode de jeu.
+     * Envoi le message de bienvenue a chaque début de mode de jeu.
      */
     public String toString() {
         return "Bienvenue dans le mode " + getClass().getSimpleName();

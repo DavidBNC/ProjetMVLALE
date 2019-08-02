@@ -4,12 +4,9 @@ import java.util.Random;
 
 public class Duel extends AbstractJeu {
 
-    public Duel(int nbrPosition) {
-        super(nbrPosition);
-    }
 
     /**
-     * jouerDuel : Déroulement du jeu en mode Duel.
+     * Déroulement du jeu en mode Duel.
      */
     private void modeDuel() {
         int quiCommence;
