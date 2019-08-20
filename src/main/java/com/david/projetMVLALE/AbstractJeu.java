@@ -1,11 +1,12 @@
 package com.david.projetMVLALE;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public abstract class AbstractJeu {
 
@@ -19,22 +20,39 @@ public abstract class AbstractJeu {
     protected byte[] propositionOrdinateur;
     protected byte[] propositionHaute;
     protected byte[] propositionBasse;
+    protected boolean modeDev;
+
+    public static Properties charger(String filename) throws IOException, FileNotFoundException {
+        Properties properties = new Properties();
+        FileInputStream input = new FileInputStream(filename);
+        try {
+            properties.load(input);
+            return properties;
+        } finally {
+            input.close();
+        }
+    }
 
     public AbstractJeu() {
-        try (InputStream input = new FileInputStream("src/com/david/projetMVLALE/config.properties")) {
-            Properties prop = new Properties();
-            prop.load(input);
+        nbrPosition = 4;
+        compteurMax = 5;
+        modeDev = false;
 
-            nbrPosition = Integer.parseInt(prop.getProperty("nbr-Position"));
-            combinaisonJoueur = new byte[nbrPosition];
-            combinaisonOrdinateur = new byte[nbrPosition];
-            propositionJoueur = new byte[nbrPosition];
-            propositionOrdinateur = new byte[nbrPosition];
-            propositionHaute = new byte[nbrPosition];
-            propositionBasse = new byte[nbrPosition];
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        try {
+            Properties prop = charger("src\\main\\java\\com\\david\\ressources\\config.properties");
+            compteurMax = Integer.parseInt(prop.getProperty("compteurPerdu"));
+            nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition"));
+            if (prop.getProperty("modeDev").equals("on") || prop.getProperty("modeDev").equals("ON")) {
+                modeDev = true;
+            }
+        } catch (NumberFormatException | IOException ex) {
         }
+        combinaisonJoueur = new byte[nbrPosition];
+        combinaisonOrdinateur = new byte[nbrPosition];
+        propositionJoueur = new byte[nbrPosition];
+        propositionOrdinateur = new byte[nbrPosition];
+        propositionHaute = new byte[nbrPosition];
+        propositionBasse = new byte[nbrPosition];
     }
 
     /**
@@ -53,7 +71,6 @@ public abstract class AbstractJeu {
             char caracSaisie = strSaisie.charAt(i);
             saisie[i] = (byte) (caracSaisie - 48);
         }
-
         System.out.print(reponse);
     }
 
@@ -87,11 +104,7 @@ public abstract class AbstractJeu {
                 int propoOrdi = min + rdmPropoOrdi.nextInt(max - min);
                 propositionOrdinateur[i] = (byte) (propoOrdi);
 
-                if (propositionOrdinateur[i] < combinaisonJoueur[i])
-                {
-                    if (propositionOrdinateur[i] == 0){
-                        propositionBasse[i] = (byte) (propositionOrdinateur[i] + 1);
-                    } else
+                if (propositionOrdinateur[i] < combinaisonJoueur[i]) {
                     propositionBasse[i] = propositionOrdinateur[i];
                 } else {
                     propositionHaute[i] = propositionOrdinateur[i];

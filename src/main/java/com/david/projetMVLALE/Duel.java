@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Duel extends AbstractJeu {
 
-
     /**
      * Déroulement du jeu en mode Duel.
      */
@@ -59,12 +58,17 @@ public class Duel extends AbstractJeu {
         System.out.println(toString());
         initialisationCombi();
         combinaisonOrdinateur(combinaisonOrdinateur);
-        System.out.print("L'ordinateur a choisi la combinaison : ");
-        afficherCombinaison(combinaisonOrdinateur);
-        System.out.println("");
+        if (modeDev) {
+            System.out.print("L'ordinateur a choisi la combinaison : ");
+            afficherCombinaison(combinaisonOrdinateur);
+            System.out.println("");
+        }
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
-        afficherCombinaison(combinaisonJoueur);
-        System.out.println("");
+        if (modeDev) {
+            afficherCombinaison(combinaisonJoueur);
+            System.out.println("");
+        } else
+            System.out.println("****");
         modeDuel();
     }
 

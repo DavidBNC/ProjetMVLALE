@@ -1,23 +1,6 @@
 package com.david.projetMVLALE;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 public class Defenseur extends AbstractJeu {
-
-    public Defenseur() {
-        try (InputStream input = new FileInputStream("src/com/david/projetMVLALE/config.properties")) {
-            Properties prop = new Properties();
-            prop.load(input);
-
-            compteurMax = Integer.parseInt(prop.getProperty("CompteurPerdu"));
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 
     /**
      * Déroulement du jeu en mode Défenseur.
@@ -38,7 +21,11 @@ public class Defenseur extends AbstractJeu {
         System.out.println(toString());
         initialisationCombi();
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
-        afficherCombinaison(combinaisonJoueur);
+        if (modeDev) {
+            afficherCombinaison(combinaisonJoueur);
+        } else {
+            System.out.println("****");
+        }
         System.out.println("");
         modeDefenseur();
     }
