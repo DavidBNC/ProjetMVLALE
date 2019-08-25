@@ -3,6 +3,7 @@ package com.david.projetMVLALE;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
@@ -10,9 +11,10 @@ import java.util.logging.Logger;
 
 public abstract class AbstractJeu {
 
-    protected int nbrPosition;
+    protected static int nbrPosition;
+    protected static int compteurMax;
+    protected static boolean modeDev;
     protected int compteur;
-    protected int compteurMax;
     protected boolean gagner;
     protected byte[] combinaisonJoueur;
     protected byte[] combinaisonOrdinateur;
@@ -20,26 +22,15 @@ public abstract class AbstractJeu {
     protected byte[] propositionOrdinateur;
     protected byte[] propositionHaute;
     protected byte[] propositionBasse;
-    protected boolean modeDev;
-
-    public static Properties charger(String filename) throws IOException, FileNotFoundException {
-        Properties properties = new Properties();
-        FileInputStream input = new FileInputStream(filename);
-        try {
-            properties.load(input);
-            return properties;
-        } finally {
-            input.close();
-        }
-    }
 
     public AbstractJeu() {
         nbrPosition = 4;
         compteurMax = 5;
         modeDev = false;
 
-        try {
-            Properties prop = charger("src\\main\\java\\com\\david\\ressources\\config.properties");
+        try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/config.properties")){
+            Properties prop = new Properties();
+            prop.load(input);
             compteurMax = Integer.parseInt(prop.getProperty("compteurPerdu"));
             nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition"));
             if (prop.getProperty("modeDev").equals("on") || prop.getProperty("modeDev").equals("ON")) {
