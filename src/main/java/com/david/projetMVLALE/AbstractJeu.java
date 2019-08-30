@@ -1,7 +1,6 @@
 package com.david.projetMVLALE;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -11,9 +10,11 @@ import java.util.logging.Logger;
 
 public abstract class AbstractJeu {
 
+    final static Logger logger = Logger.getLogger(String.valueOf(AbstractJeu.class));
     protected static int nbrPosition;
     protected static int compteurMax;
     protected static boolean modeDev;
+    protected static boolean confCharger;
     protected int compteur;
     protected boolean gagner;
     protected byte[] combinaisonJoueur;
@@ -24,19 +25,18 @@ public abstract class AbstractJeu {
     protected byte[] propositionBasse;
 
     public AbstractJeu() {
-        nbrPosition = 4;
-        compteurMax = 5;
-        modeDev = false;
-
-        try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/config.properties")){
-            Properties prop = new Properties();
-            prop.load(input);
-            compteurMax = Integer.parseInt(prop.getProperty("compteurPerdu"));
-            nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition"));
-            if (prop.getProperty("modeDev").equals("on") || prop.getProperty("modeDev").equals("ON")) {
-                modeDev = true;
+        if (!confCharger) {
+            try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/config.properties")) {
+                Properties prop = new Properties();
+                prop.load(input);
+                compteurMax = Integer.parseInt(prop.getProperty("compteurMax", "5"));
+                nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition", "4"));
+                if (prop.getProperty("modeDev", "1").equals("0")) {
+                    modeDev = true;
+                }
+            } catch (NumberFormatException | IOException ex) {
             }
-        } catch (NumberFormatException | IOException ex) {
+            confCharger = true;
         }
         combinaisonJoueur = new byte[nbrPosition];
         combinaisonOrdinateur = new byte[nbrPosition];
