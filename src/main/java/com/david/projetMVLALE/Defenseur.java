@@ -14,6 +14,8 @@ public class Defenseur extends AbstractJeu {
         } while (!gagner && nbrToursMax());
         if (gagner) {
             System.out.println("L'ordinateur a gagné !!");
+            logger.info("L'ordinateur a gagné");
+
         }
     }
 
@@ -21,12 +23,12 @@ public class Defenseur extends AbstractJeu {
         System.out.println(toString());
         initialisationCombi();
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
+        logger.info("Combinaison joueur : " + afficherCombinaison(combinaisonJoueur));
         if (modeDev) {
-            afficherCombinaison(combinaisonJoueur);
+            System.out.println(afficherCombinaison(combinaisonJoueur));
         } else {
             System.out.println("****");
         }
-        System.out.println("");
         modeDefenseur();
     }
 
@@ -35,6 +37,7 @@ public class Defenseur extends AbstractJeu {
             return true;
         } else
             System.out.println("L'ordinateur a perdu.");
+        logger.info("L'ordinateur a perdu");
         return false;
     }
 }

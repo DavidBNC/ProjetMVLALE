@@ -18,6 +18,7 @@ public class Duel extends AbstractJeu {
         if (quiCommence == 0) {
 
             System.out.println("Tu commences à jouer.");
+            logger.info("L'utilisateur commence.");
             do {
                 tourJoueur();
                 if (gagner) {
@@ -33,7 +34,7 @@ public class Duel extends AbstractJeu {
 
         } else if (quiCommence == 1) {
             System.out.println("L'ordinateur commence à jouer.");
-
+            logger.info("L'ordinateur commence.");
             do {
                 tourOrdinateur();
                 if (gagner) {
@@ -49,8 +50,12 @@ public class Duel extends AbstractJeu {
         }
         if (joueurGagne) {
             System.out.println("Vous avez gagné la partie.");
+            logger.info("L'utilisateur a gagné");
+
         } else
             System.out.println("L'ordinateur a gagné la partie.");
+        logger.info("L'ordinateur a gagné");
+
     }
 
 
@@ -58,15 +63,14 @@ public class Duel extends AbstractJeu {
         System.out.println(toString());
         initialisationCombi();
         combinaisonOrdinateur(combinaisonOrdinateur);
+        logger.info("Combinaison ordinateur : " + afficherCombinaison(combinaisonOrdinateur));
         if (modeDev) {
-            System.out.print("L'ordinateur a choisi la combinaison : ");
-            afficherCombinaison(combinaisonOrdinateur);
-            System.out.println("");
+            System.out.print("L'ordinateur a choisi la combinaison : " + afficherCombinaison(combinaisonOrdinateur) + "\n");
         }
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
+        logger.info("Combinaison joueur : " + afficherCombinaison(combinaisonJoueur));
         if (modeDev) {
-            afficherCombinaison(combinaisonJoueur);
-            System.out.println("");
+            System.out.println( afficherCombinaison(combinaisonJoueur) + "\n");
         } else
             System.out.println("****");
         modeDuel();

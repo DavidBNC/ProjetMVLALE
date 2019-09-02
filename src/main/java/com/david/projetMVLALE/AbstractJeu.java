@@ -6,11 +6,11 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Logger;
+import org.apache.log4j.Logger;
 
 public abstract class AbstractJeu {
 
-    final static Logger logger = Logger.getLogger(String.valueOf(AbstractJeu.class));
+    final protected static Logger logger = Logger.getLogger((AbstractJeu.class));
     protected static int nbrPosition;
     protected static int compteurMax;
     protected static boolean modeDev;
@@ -26,7 +26,7 @@ public abstract class AbstractJeu {
 
     public AbstractJeu() {
         if (!confCharger) {
-            try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/config.properties")) {
+            try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/1config.properties")) {
                 Properties prop = new Properties();
                 prop.load(input);
                 compteurMax = Integer.parseInt(prop.getProperty("compteurMax", "5"));
@@ -35,6 +35,10 @@ public abstract class AbstractJeu {
                     modeDev = true;
                 }
             } catch (NumberFormatException | IOException ex) {
+                compteurMax = 5;
+                nbrPosition = 4;
+                modeDev = false;
+                logger.warn("Le fichier de configuration n'a pas été trouvé.");
             }
             confCharger = true;
         }
@@ -135,8 +139,8 @@ public abstract class AbstractJeu {
      */
     protected void tourJoueur() {
         saisie(propositionJoueur, "Veuillez choisir une proposition :", "Votre proposition : ");
-        afficherCombinaison(propositionJoueur);
-        System.out.println(" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
+        System.out.println(afficherCombinaison(propositionJoueur) +" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
+        logger.info(comparaison(propositionJoueur, combinaisonOrdinateur));
     }
 
     /**
@@ -144,9 +148,9 @@ public abstract class AbstractJeu {
      */
     protected void tourOrdinateur() {
         jouerOrdinateur();
-        System.out.print("Proposition : ");
-        afficherCombinaison(propositionOrdinateur);
-        System.out.println(" --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
+        System.out.print("Proposition de l'ordinateur : ");
+        System.out.println(afficherCombinaison(propositionOrdinateur) + " --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
+        logger.info(comparaison(propositionOrdinateur, combinaisonJoueur));
     }
 
     /**
@@ -154,11 +158,12 @@ public abstract class AbstractJeu {
      *
      * @param combi
      */
-    protected void afficherCombinaison(byte[] combi) {
-
+    protected String afficherCombinaison(byte[] combi) {
+        String strCombi = "";
         for (int i = 0; i < nbrPosition; i++) {
-            System.out.print(combi[i]);
+            strCombi += combi[i];
         }
+        return strCombi;
     }
 
     /**
@@ -173,6 +178,7 @@ public abstract class AbstractJeu {
             return true;
         } else
             System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
+        logger.warn("Longueur de saisie invalide.");
         return false;
     }
 
@@ -187,6 +193,7 @@ public abstract class AbstractJeu {
         for (int i = 0; i < nbrPosition; i++) {
             if (strSaisie.charAt(i) < '0' || strSaisie.charAt(i) > '9') {
                 System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
+                logger.warn("Contenu de la saisie invalide.");
                 return false;
             }
         }

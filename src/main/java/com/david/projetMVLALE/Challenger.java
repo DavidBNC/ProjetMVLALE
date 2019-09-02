@@ -15,6 +15,7 @@ public class Challenger extends AbstractJeu {
         } while (!gagner && nbrToursMax());
         if (gagner) {
             System.out.println("Vous avez gagné !!");
+            logger.info("L'utilisateur a gagné");
         }
     }
 
@@ -22,10 +23,9 @@ public class Challenger extends AbstractJeu {
         System.out.println(toString());
         initialisationCombi();
         combinaisonOrdinateur(combinaisonOrdinateur);
+        logger.info("Combinaison ordinateur : " + afficherCombinaison(combinaisonOrdinateur));
         if (modeDev) {
-            System.out.print("L'ordinateur a choisi la combinaison : ");
-            afficherCombinaison(combinaisonOrdinateur);
-            System.out.println("");
+            System.out.print("L'ordinateur a choisi la combinaison : " + afficherCombinaison(combinaisonOrdinateur) + "\n");
         }
         modeChallenger();
     }
@@ -34,11 +34,9 @@ public class Challenger extends AbstractJeu {
         if (compteur < compteurMax) {
             return true;
         } else
-            System.out.println("La combinaison de l'ordinateur était : ");
-            afficherCombinaison(combinaisonOrdinateur);
-            System.out.println("");
-            System.out.println("Vous avez perdu.");
-            return false;
+            System.out.println("La combinaison de l'ordinateur était : " + afficherCombinaison(combinaisonOrdinateur) + "\n" + "Vous avez perdu.");
+        logger.info("L'utilisateur a perdu");
+        return false;
 
     }
 }
