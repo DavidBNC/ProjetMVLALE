@@ -18,7 +18,7 @@ public class Duel extends AbstractJeu {
         if (quiCommence == 0) {
 
             System.out.println("Tu commences à jouer.");
-            logger.info("L'utilisateur commence.");
+            logger.info("L'utilisateur commence à jouer.");
             do {
                 tourJoueur();
                 if (gagner) {
@@ -34,7 +34,7 @@ public class Duel extends AbstractJeu {
 
         } else if (quiCommence == 1) {
             System.out.println("L'ordinateur commence à jouer.");
-            logger.info("L'ordinateur commence.");
+            logger.info("L'ordinateur commence à jouer.");
             do {
                 tourOrdinateur();
                 if (gagner) {
@@ -50,11 +50,11 @@ public class Duel extends AbstractJeu {
         }
         if (joueurGagne) {
             System.out.println("Vous avez gagné la partie.");
-            logger.info("L'utilisateur a gagné");
+            logger.info("L'utilisateur a gagné la partie.");
 
         } else
             System.out.println("L'ordinateur a gagné la partie.");
-        logger.info("L'ordinateur a gagné");
+        logger.info("L'ordinateur a gagné la partie.");
 
     }
 

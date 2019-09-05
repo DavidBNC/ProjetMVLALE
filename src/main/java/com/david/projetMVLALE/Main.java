@@ -1,5 +1,7 @@
 package com.david.projetMVLALE;
 
+import org.apache.log4j.BasicConfigurator;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -7,6 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        BasicConfigurator.configure();
         Scanner scChoixMdj = new Scanner(System.in);
         Scanner scFinDeJeu = new Scanner(System.in);
         int choixMDJ = 0;
