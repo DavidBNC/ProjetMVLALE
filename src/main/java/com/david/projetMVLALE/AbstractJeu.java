@@ -31,14 +31,18 @@ public abstract class AbstractJeu {
                 Properties prop = new Properties();
                 prop.load(input);
                 logger.info("Le fichier de configuration a été initialisé.");
-                if (prop.getProperty("compteurMax").charAt(0) < '0' || prop.getProperty("compteurMax").charAt(0) > 9) {
+                try {
                     compteurMax = Integer.parseInt(prop.getProperty("compteurMax", "5"));
+                } catch (NumberFormatException nfex){
+                    compteurMax = 5;
                 }
-                if (prop.getProperty("nbrPosition").charAt(0) < '0' || prop.getProperty("nbrPosition").charAt(0) > 9) {
+                try {
                     nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition", "4"));
+                } catch (NumberFormatException nfex){
+                    nbrPosition = 4;
                 }
                 modeDev = Boolean.parseBoolean(prop.getProperty("modeDev", "false"));
-            } catch (NumberFormatException | IOException ex) {
+            } catch (IOException ex) {
                 compteurMax = 5;
                 nbrPosition = 4;
                 modeDev = false;
