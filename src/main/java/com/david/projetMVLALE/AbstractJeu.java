@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 public abstract class AbstractJeu {
 
     final protected static Logger logger = Logger.getLogger((AbstractJeu.class));
+    final protected static int COMPTEUR_MAX = 5;
+    final protected static int NBR_POSITION = 4;
     protected static int nbrPosition;
     protected static int compteurMax;
     protected static boolean modeDev;
@@ -33,15 +35,26 @@ public abstract class AbstractJeu {
                 logger.info("Le fichier de configuration a été initialisé.");
                 try {
                     compteurMax = Integer.parseInt(prop.getProperty("compteurMax", "5"));
+                    if (compteurMax < 0){
+                        compteurMax = COMPTEUR_MAX;
+                    }
                 } catch (NumberFormatException nfex){
-                    compteurMax = 5;
+                    compteurMax = COMPTEUR_MAX;
                 }
                 try {
                     nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition", "4"));
+                    if (nbrPosition < 0){
+                        nbrPosition = NBR_POSITION;
+                    }
                 } catch (NumberFormatException nfex){
-                    nbrPosition = 4;
+                    nbrPosition = NBR_POSITION;
                 }
+                try {
                 modeDev = Boolean.parseBoolean(prop.getProperty("modeDev", "false"));
+                } catch (NumberFormatException nfex){
+                    modeDev = false;
+                }
+
             } catch (IOException ex) {
                 compteurMax = 5;
                 nbrPosition = 4;
@@ -159,7 +172,7 @@ public abstract class AbstractJeu {
      */
     protected void tourOrdinateur() {
         jouerOrdinateur();
-        logger.info("Proposition de l'ordinateur : " + afficherCombinaison(propositionJoueur));
+        logger.info("Proposition de l'ordinateur : " + afficherCombinaison(propositionOrdinateur));
         System.out.println("Proposition de l'ordinateur : " + afficherCombinaison(propositionOrdinateur) + " --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
         logger.info("Retour de la comparaison du tour de l'ordinateur : " + retourComparaison);
     }
