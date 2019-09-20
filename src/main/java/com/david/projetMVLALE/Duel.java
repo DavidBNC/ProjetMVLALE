@@ -70,7 +70,7 @@ public class Duel extends AbstractJeu {
         saisie(combinaisonJoueur, "Veuillez entrer votre combinaison secrète : ", "Combinaison secrète : ");
         logger.info("Combinaison joueur : " + afficherCombinaison(combinaisonJoueur));
         if (modeDev) {
-            System.out.println( afficherCombinaison(combinaisonJoueur) + "\n");
+            System.out.println(afficherCombinaison(combinaisonJoueur) + "\n");
         } else
             System.out.println("****");
         modeDuel();

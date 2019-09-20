@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
+
 import org.apache.log4j.Logger;
 
 public abstract class AbstractJeu {
@@ -34,30 +35,30 @@ public abstract class AbstractJeu {
                 prop.load(input);
                 logger.info("Le fichier de configuration a été initialisé.");
                 try {
-                    compteurMax = Integer.parseInt(prop.getProperty("compteurMax", "5"));
-                    if (compteurMax < 0){
+                    compteurMax = Integer.parseInt(prop.getProperty("compteurMax", Integer.toString(COMPTEUR_MAX)));
+                    if (compteurMax <= 0) {
                         compteurMax = COMPTEUR_MAX;
+                        logger.warn("La valeur trouvée dans le fichier de configuration n'est pas correcte. Elle sera donc initialisée par défaut.");
                     }
-                } catch (NumberFormatException nfex){
+                } catch (NumberFormatException nfex) {
                     compteurMax = COMPTEUR_MAX;
                 }
                 try {
-                    nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition", "4"));
-                    if (nbrPosition < 0){
+                    nbrPosition = Integer.parseInt(prop.getProperty("nbrPosition", Integer.toString(NBR_POSITION)));
+                    if (nbrPosition <= 0) {
                         nbrPosition = NBR_POSITION;
+                        logger.warn("La valeur trouvée dans le fichier de configuration n'est pas correcte. Elle sera donc initialisée par défaut.");
+
                     }
-                } catch (NumberFormatException nfex){
+                } catch (NumberFormatException nfex) {
                     nbrPosition = NBR_POSITION;
                 }
-                try {
+
                 modeDev = Boolean.parseBoolean(prop.getProperty("modeDev", "false"));
-                } catch (NumberFormatException nfex){
-                    modeDev = false;
-                }
 
             } catch (IOException ex) {
-                compteurMax = 5;
-                nbrPosition = 4;
+                compteurMax = COMPTEUR_MAX;
+                nbrPosition = NBR_POSITION;
                 modeDev = false;
                 logger.warn("Le fichier de configuration n'a pas été trouvé. Les valeurs sont donc initialisées par défaut.");
             }
@@ -163,7 +164,7 @@ public abstract class AbstractJeu {
     protected void tourJoueur() {
         saisie(propositionJoueur, "Veuillez choisir une proposition :", "Votre proposition : ");
         logger.info("Proposition de l'utilisateur : " + afficherCombinaison(propositionJoueur));
-        System.out.println(afficherCombinaison(propositionJoueur) +" --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
+        System.out.println(afficherCombinaison(propositionJoueur) + " --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
         logger.info("Retour de la comparaison du tour de l'utilisateur : " + retourComparaison);
     }
 

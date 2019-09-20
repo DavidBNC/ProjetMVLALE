@@ -27,14 +27,18 @@ public class Main {
                     scChoixMdj.next();
                     System.err.println("Choisissez un nombre entre 1, 2 et 3");
                 }
-                if (choixMDJ == 1) {
-                    jeu = new Challenger();
-                } else if (choixMDJ == 2) {
-                    jeu = new Defenseur();
-                } else if (choixMDJ == 3) {
-                    jeu = new Duel();
-                } else {
-                    System.out.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
+                switch (choixMDJ) {
+                    case 1:
+                        jeu = new Challenger();
+                        break;
+                    case 2:
+                        jeu = new Defenseur();
+                        break;
+                    case 3:
+                        jeu = new Duel();
+                        break;
+                    default:
+                        System.out.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
                 }
             } while (choixMDJ < 1 || choixMDJ > 3);
 
