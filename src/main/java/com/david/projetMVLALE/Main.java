@@ -41,8 +41,8 @@ public class Main {
                         System.out.println("Veuillez choisir entre les trois modes de jeu - (1 = Challengeur, 2 = Défenseur, 3 Duel)");
                 }
             } while (choixMDJ < 1 || choixMDJ > 3);
-
-            jeu.jouer();
+            InterfaceConsole icJeu = new InterfaceConsole(jeu);
+            icJeu.jouer();
             do {
                 do {
                     choixFinDeJeu = 0;
@@ -54,7 +54,7 @@ public class Main {
                     }
                 } while (choixFinDeJeu < 1 || choixFinDeJeu > 3);
                 if (choixFinDeJeu == 2) {
-                    jeu.jouer();
+                    icJeu.jouer();
                 }
             } while (choixFinDeJeu == 2);
         } while (choixFinDeJeu == 1);

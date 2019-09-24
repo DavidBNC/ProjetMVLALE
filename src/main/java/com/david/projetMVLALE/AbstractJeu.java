@@ -5,21 +5,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Random;
-import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
 public abstract class AbstractJeu {
 
     final protected static Logger logger = Logger.getLogger((AbstractJeu.class));
-    final protected static int COMPTEUR_MAX = 5;
-    final protected static int NBR_POSITION = 4;
+    final private static int COMPTEUR_MAX = 5;
+    final private static int NBR_POSITION = 4;
     protected static int nbrPosition;
     protected static int compteurMax;
     protected static boolean modeDev;
     protected static boolean confCharger;
     protected int compteur;
+    protected boolean compteurOn;
     protected boolean gagner;
+    protected boolean joueur;
+    protected boolean ordinateur;
     protected String retourComparaison;
     protected byte[] combinaisonJoueur;
     protected byte[] combinaisonOrdinateur;
@@ -79,18 +81,11 @@ public abstract class AbstractJeu {
      * Saisie manuel de la combinaison ou de la proposition du Joueur en passant par différentes conversions +
      * Stock dans un tableau de byte les caractères un à un de la combinaison secrète ou proposition.
      */
-    protected void saisie(byte[] saisie, String demande, String reponse) {
-        String strSaisie;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println(demande);
-        do {
-            strSaisie = scanner.nextLine();
-        } while (!longeurSaisie(strSaisie) || !contenuSaisie(strSaisie));
+    protected void saisie(byte[] saisie, String strSaisie) {
         for (int i = 0; i < nbrPosition; i++) {
             char caracSaisie = strSaisie.charAt(i);
             saisie[i] = (byte) (caracSaisie - 48);
         }
-        System.out.print(reponse);
     }
 
     /**
@@ -109,7 +104,7 @@ public abstract class AbstractJeu {
      * Fais jouer l'intelligence artificielle de l'ordinateur.
      */
 
-    private void jouerOrdinateur() {
+    protected void jouerOrdinateur() {
         Random rdmPropoOrdi = new Random();
 
         for (int i = 0; i < nbrPosition; i++) {
@@ -137,7 +132,7 @@ public abstract class AbstractJeu {
      *
      * @return str
      */
-    private String comparaison(byte[] proposition, byte[] combinaison) {
+    protected String comparaison(byte[] proposition, byte[] combinaison) {
         int nbPositionCorrecte = 0;
         gagner = false;
         retourComparaison = "";
@@ -159,26 +154,6 @@ public abstract class AbstractJeu {
     }
 
     /**
-     * Methode du tour du Joueur.
-     */
-    protected void tourJoueur() {
-        saisie(propositionJoueur, "Veuillez choisir une proposition :", "Votre proposition : ");
-        logger.info("Proposition de l'utilisateur : " + afficherCombinaison(propositionJoueur));
-        System.out.println(afficherCombinaison(propositionJoueur) + " --> Réponse : " + comparaison(propositionJoueur, combinaisonOrdinateur));
-        logger.info("Retour de la comparaison du tour de l'utilisateur : " + retourComparaison);
-    }
-
-    /**
-     * Methode du tour de l'ordinateur.
-     */
-    protected void tourOrdinateur() {
-        jouerOrdinateur();
-        logger.info("Proposition de l'ordinateur : " + afficherCombinaison(propositionOrdinateur));
-        System.out.println("Proposition de l'ordinateur : " + afficherCombinaison(propositionOrdinateur) + " --> Réponse : " + comparaison(propositionOrdinateur, combinaisonJoueur));
-        logger.info("Retour de la comparaison du tour de l'ordinateur : " + retourComparaison);
-    }
-
-    /**
      * Affiche la combinaison.
      *
      * @param combi
@@ -197,14 +172,12 @@ public abstract class AbstractJeu {
      * @param strSaisie
      * @return
      */
-    private boolean longeurSaisie(String strSaisie) {
+    protected boolean longeurSaisie(String strSaisie) {
 
         if (strSaisie.length() == nbrPosition) {
             return true;
         } else
-            System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
-        logger.warn("Longueur de saisie invalide. La saisie doit être de " + nbrPosition + " chiffres.");
-        return false;
+            return false;
     }
 
     /**
@@ -213,12 +186,10 @@ public abstract class AbstractJeu {
      * @param strSaisie
      * @return
      */
-    private boolean contenuSaisie(String strSaisie) {
+    protected boolean contenuSaisie(String strSaisie) {
 
         for (int i = 0; i < nbrPosition; i++) {
             if (strSaisie.charAt(i) < '0' || strSaisie.charAt(i) > '9') {
-                System.err.println("Veuillez choisir une saisie de " + nbrPosition + " chiffres.");
-                logger.warn("Contenu de la saisie invalide. La saisie doit contenir " + nbrPosition + "chiffres.");
                 return false;
             }
         }
@@ -247,11 +218,6 @@ public abstract class AbstractJeu {
      * @return
      */
     protected abstract boolean nbrToursMax();
-
-    /**
-     * Methode pour lancer les différents mode de jeu dans le projetMVLALE.
-     */
-    protected abstract void jouer();
 
     /**
      * Envoi le message de bienvenue a chaque début de mode de jeu.
