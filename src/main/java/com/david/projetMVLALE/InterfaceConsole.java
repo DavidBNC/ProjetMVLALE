@@ -20,6 +20,7 @@ public class InterfaceConsole {
         String strSaisie;
         String strProposition;
         int tour = 0;
+        jeu.gagner = false;
 
 
         if (jeu.joueur) {
@@ -81,7 +82,7 @@ public class InterfaceConsole {
         } while (!jeu.gagner && jeu.nbrToursMax());
 
 
-        if (jeu.nbrToursMax()) {
+        if (jeu.gagner) {
             if (tour == 0) {
                 System.out.println("L'ordinateur a gagné !");
                 logger.info("L'ordinateur a gagné");
@@ -89,7 +90,8 @@ public class InterfaceConsole {
                 System.out.println("Vous avez gagné !");
                 logger.info("Vous avez gagné");
             }
-        } else {
+        }
+        if (!jeu.nbrToursMax() && !jeu.gagner) {
             if (tour == 0) {
                 System.out.println("L'ordinateur a perdu, la combinaison correcte était " + jeu.afficherCombinaison(jeu.combinaisonJoueur) + ".");
                 logger.info("L'ordinateur a perdu, la combinaison correcte était " + jeu.afficherCombinaison(jeu.combinaisonJoueur) + ".");
