@@ -1,6 +1,5 @@
 package com.david.projetMVLALE;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -32,7 +31,7 @@ public abstract class AbstractJeu {
 
     public AbstractJeu() {
         if (!confCharger) {
-            try (InputStream input = new FileInputStream("src/main/java/com/david/ressources/config.properties")) {
+            try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
                 Properties prop = new Properties();
                 prop.load(input);
                 logger.info("Le fichier de configuration a été initialisé.");
@@ -58,7 +57,7 @@ public abstract class AbstractJeu {
 
                 modeDev = Boolean.parseBoolean(prop.getProperty("modeDev", "false"));
 
-            } catch (IOException ex) {
+            } catch (IOException | NullPointerException ex) {
                 compteurMax = COMPTEUR_MAX;
                 nbrPosition = NBR_POSITION;
                 modeDev = false;
